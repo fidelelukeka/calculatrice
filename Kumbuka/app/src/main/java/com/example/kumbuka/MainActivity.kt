@@ -1,4 +1,4 @@
-package com.example.calculatrice
+package com.example.kumbuka
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,18 +11,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.calculatrice.ui.theme.CalculatriceTheme
-import com.example.calculatrice.utils.CalculatorEvaluateExpression
+import com.example.kumbuka.ui.theme.KumbukaTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            CalculatriceTheme {
+            KumbukaTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "${CalculatorEvaluateExpression.evaluate("5+6") }",
+                        name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -34,7 +33,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
-        text = "$name!",
+        text = "Hello $name!",
         modifier = modifier
     )
 }
@@ -42,7 +41,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    CalculatriceTheme {
+    KumbukaTheme {
         Greeting("Android")
     }
 }
