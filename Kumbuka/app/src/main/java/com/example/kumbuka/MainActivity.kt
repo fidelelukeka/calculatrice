@@ -4,15 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavGraph
-import androidx.navigation.NavHost
+import androidx.activity.viewModels
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -25,6 +18,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             KumbukaTheme {
+                val viewModel by viewModels<NoteViewModel>()
+
+                val notes = viewModel.getData().collectAsStateWithLifecycle(emptyList())
 
                 val navController = rememberNavController()
 
@@ -33,7 +29,31 @@ class MainActivity : ComponentActivity() {
                     startDestination = ListNotes
                 ){
                     composable<ListNotes>{
-                        ListNotesScreen()
+                        NoteListScreen(
+                            notes = notes.value,
+                            selectedList = viewModel.selectedNotes,
+                            onDeleteNote = {
+                                viewModel.deleteNotes()
+                            },
+                            onClickAddNote = {
+                                navController.navigate(DetailsNote())
+                            },
+                            onChangeSelection = {note ->
+                                viewModel.onChangeSelection(note)
+                            },
+                            onNavigateToNoteDetailsScreen = {note ->
+                                navController.navigate(
+                                    DetailsNote(
+                                        id = note.id,
+                                        title = note.title,
+                                        desc = note.desc
+                                    )
+                                )
+                            },
+                            onClearSelection = {
+                                viewModel.clearSelectedList()
+                            }
+                        )
                     }
                     composable<DetailsNote>{
                         DetailsNoteScreen()
@@ -48,4 +68,6 @@ class MainActivity : ComponentActivity() {
 
 @Serializable
 object ListNotes
+
+@Serializable
 data class DetailsNote( val id : Int? = null, val title : String = "", val desc : String = "")
