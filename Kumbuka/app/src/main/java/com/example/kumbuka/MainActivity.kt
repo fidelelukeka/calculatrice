@@ -11,7 +11,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavGraph
+import androidx.navigation.NavHost
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.kumbuka.ui.theme.KumbukaTheme
+import kotlinx.serialization.Serializable
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,29 +25,27 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             KumbukaTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+
+                val navController = rememberNavController()
+
+                NavHost(
+                    navController = navController,
+                    startDestination = ListNotes
+                ){
+                    composable<ListNotes>{
+                        ListNotesScreen()
+                    }
+                    composable<DetailsNote>{
+                        DetailsNoteScreen()
+                    }
                 }
+
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    KumbukaTheme {
-        Greeting("Android")
-    }
-}
+@Serializable
+object ListNotes
+data class DetailsNote( val id : Int? = null, val title : String = "", val desc : String = "")
