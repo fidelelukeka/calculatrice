@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId = "com.example.kumbuka"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -60,7 +60,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-
+    implementation(libs.navigation.compose)
     implementation(libs.kotlin.serialization.json)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
