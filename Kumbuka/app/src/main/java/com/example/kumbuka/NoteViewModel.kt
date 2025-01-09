@@ -20,9 +20,9 @@ class NoteViewModel(context : Application) : AndroidViewModel(context) {
         }
     }
 
-    fun deleteNotes(notes : List<NoteEntity>){
+    fun deleteNotes(){
         viewModelScope.launch{
-            dao.deleteNotes(notes)
+            dao.deleteNotes(selectedNotes)
         }
     }
 
