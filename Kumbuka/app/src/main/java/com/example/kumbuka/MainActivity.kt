@@ -9,6 +9,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.example.kumbuka.database.NoteEntity
 import com.example.kumbuka.ui.theme.KumbukaTheme
 import kotlinx.serialization.Serializable
 
@@ -56,7 +58,21 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable<DetailsNote>{
-                        DetailsNoteScreen()
+                        val args = it.toRoute<DetailsNote>()
+                        val note = NoteEntity(
+                            id = args.id,
+                            title = args.title,
+                            desc = args.desc
+                        )
+                        NoteDetailsScreen(
+                            note = note,
+                            onNavigateBack = {
+                                navController.popBackStack()
+                            },
+                            onUpdateNote = { note ->
+                                viewModel.updateNote(note)
+                            }
+                        )
                     }
                 }
 
