@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -52,7 +53,7 @@ fun NoteListScreen(
                     Text("Kumbuka")
                 },
                 actions = {
-                    if(selectedList.isEmpty()){
+                    if(selectedList.isNotEmpty()){
                         IconButton(
                             onClick = {
                                 onDeleteNote()
@@ -84,8 +85,8 @@ fun NoteListScreen(
             modifier = Modifier.padding(paddingValues).padding(16.dp)
         ){
             LazyVerticalStaggeredGrid(
-                columns = StaggeredGridCells.Adaptive(15.dp),
-                modifier = Modifier.fillMaxSize(),
+                columns = StaggeredGridCells.Adaptive(150.dp),
+                modifier = Modifier.fillMaxWidth(),
                 verticalItemSpacing = 8.dp,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -93,7 +94,7 @@ fun NoteListScreen(
                     OutlinedCard(
                         border = if(selectedList.contains(note)) BorderStroke(3.dp, MaterialTheme.colorScheme.tertiary) else CardDefaults.outlinedCardBorder(),
                         modifier = Modifier
-                            .fillMaxSize()
+                            .fillMaxWidth()
                             .combinedClickable(
                                 onLongClick = {
                                     onChangeSelection(note)
